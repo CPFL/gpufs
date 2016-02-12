@@ -390,7 +390,7 @@ void __global__ grep_text(char* src, char* out, char* dbs)
 
 
 void init_device_app(){
-      CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,1<<30));
+      CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,(1<<20) * 256));
 }
 void init_app()
 {
