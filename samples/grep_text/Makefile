@@ -20,8 +20,8 @@ LIBGPUFSDIR=../../libgpufs/
 
 include $(LIBGPUFSDIR)/Makefile
 
-grep_text_gpu_nofs: grep_text_gpu_nofs.cu /home/marks/home/gpufs/workloads/libgpufs/libgpufs.a
-	$(NVCC) -o grep_text_gpu_nofs grep_text_gpu_nofs.cu  -I/home/marks/home/gpufs/workloads/libgpufs/
+grep_text_gpu_nofs: grep_text_gpu_nofs.cu /root/dev/gpufs/libgpufs/libgpufs.a
+	$(NVCC) -o grep_text_gpu_nofs grep_text_gpu_nofs.cu  -I/root/dev/gpufs/libgpufs/
 
 #grep_text_gpu.o: grep_text_gpu.cu
 #	$(NVCC) -dc grep_text_gpu.cu -I/home/marks/home/gpufs/workloads/libgpufs/

@@ -30,6 +30,12 @@
         }
 
 
+__forceinline__ __device__ void memcpy_thread(volatile char* dst, const volatile char* src, uint size)
+{
+        for( int i=0;i<size;i++)
+                dst[i]=src[i];
+}
+
 
 
 
@@ -284,7 +290,7 @@ void setupGpu(char** d_content, char* h_content, size_t content_size,
 		CUDA_SAFE_CALL(cudaMemcpy(*d_words,h_words,num_words*32,cudaMemcpyHostToDevice));
 
 
-      		CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,1<<30));
+          CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,(1<<20) * 256));
         
 	        void* global_output_ptr;
 
