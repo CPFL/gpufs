@@ -84,7 +84,8 @@ struct _pagehelper{
 
 __shared__ char input[INPUT_PREFETCH_ARRAY];
 
-__shared__ char corpus[CORPUS_PREFETCH_SIZE+32+1]; // just in case we need the leftovers
+// __shared__ char corpus[CORPUS_PREFETCH_SIZE+32+1]; // just in case we need the leftovers
+__shared__ char* corpus;
 
 __device__ int find_overlap(char* dst)
 {
@@ -266,6 +267,8 @@ void __global__ grep_text(char* src, char* out, char* dbs)
 			__threadfence();
 			init_lock.signal();
 		}
+
+        corpus = (char*)malloc(CORPUS_PREFETCH_SIZE+32+1);
 	END_SINGLE_THREAD
 
 

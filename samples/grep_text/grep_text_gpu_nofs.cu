@@ -46,7 +46,8 @@ __forceinline__ __device__ void memcpy_thread(volatile char* dst, const volatile
 
 #define CORPUS_PREFETCH_SIZE (16384)
 __shared__ char input[INPUT_PREFETCH_ARRAY];
-__shared__ char corpus[CORPUS_PREFETCH_SIZE+32+1]; // just in case we need the leftovers
+__shared__ char* corpus;
+// __shared__ char corpus[CORPUS_PREFETCH_SIZE+32+1]; // just in case we need the leftovers
 
 		
 __device__ void bzero_block(char*dst, int total_buf){
@@ -165,6 +166,7 @@ void __global__ grep_text_nofiles(char* src, int total_words, char* out, char* d
 		output_buffer=(char*)malloc(data_to_process/32*(32+3*sizeof(int)));
 		assert(output_buffer);
 		output_count=0;
+        corpus = (char*)malloc(CORPUS_PREFETCH_SIZE+32+1);
 	}
 	__syncthreads();
 
