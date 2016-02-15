@@ -68,7 +68,7 @@ static char *sSDKsample = "matrixMul";
 
 void init_device_app(){
 //      CUDA_SAFE_CALL(cudaSetDevice(global_devicenum));
-      CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,1<<25));
+      CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,(1<<20) * 256));
 }
 
 
@@ -533,6 +533,10 @@ for(int zzz=0;zzz<NUM_ITERATIONS;zzz++){
 	double c_open, c_rw, c_close;
         c_open=c_rw=c_close=0;
 
+
+    checkCudaErrors(cudaFree(d_A));
+    checkCudaErrors(cudaFree(d_B));
+    checkCudaErrors(cudaFree(d_C));
 	
 	double total_time=0;
 for(int zzz=0;zzz<NUM_ITERATIONS;zzz++){
@@ -548,7 +552,7 @@ for(int zzz=0;zzz<NUM_ITERATIONS;zzz++){
       	cudaError_t error=  cudaDeviceSynchronize();
 	double time_after=_timestamp();
         total_time+=(time_after-time_before);
-  	fprintf(stderr,"GPUFS >>>Total time=%0.f \n", (time_after-time_before)/1000);
+  	fprintf(stderr,"GPUFS >>>Total time=%0.f \n", (time_after-time_before));
     //Check for errors and failed asserts in asynchronous kernel launch.
     if(error != cudaSuccess )
     {
@@ -615,9 +619,9 @@ for(int zzz=0;zzz<NUM_ITERATIONS;zzz++){
     cudaFreeHost(h_A);
     cudaFreeHost(h_B);
     cudaFreeHost(h_C);
-    checkCudaErrors(cudaFree(d_A));
-    checkCudaErrors(cudaFree(d_B));
-    checkCudaErrors(cudaFree(d_C));
+    // checkCudaErrors(cudaFree(d_A));
+    // checkCudaErrors(cudaFree(d_B));
+    // checkCudaErrors(cudaFree(d_C));
 
  //   cudaDeviceReset();
 }
