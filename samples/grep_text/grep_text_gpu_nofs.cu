@@ -93,6 +93,8 @@ __device__ int match_string( char* a, char*data, int data_size, char* wordlen)
 	char word_start=1;
 	if (*a==0) return -1;
 	
+
+    #pragma unroll 32
 	for(int i=0;i<data_size;i++)
 	{
 		if (!alpha(data[i])) { 
