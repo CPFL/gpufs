@@ -36,36 +36,51 @@
  * See also:
  * V. Volkov and J. Demmel, "Benchmarking GPUs to tune dense linear algebra,"
  * in Proc. 2008 ACM/IEEE Conf. on Superconducting (SC '08),
- * Piscataway, NJ: IEEE Press, 2008, pp. Art. 31:1-11. 
+ * Piscataway, NJ: IEEE Press, 2008, pp. Art. 31:1-11.
  *
  */
 
 // Utilities and system includes
+#include <cmath>
 #include <errno.h>
 #include <cublas_v2.h>
+
+#if 0
 #include <sdkHelper.h>  // helper for shared functions common to CUDA SDK samples
 #include <shrQATest.h>
 #include <shrUtils.h>
+#else
+// CUDA 7.5 helper functions.
+#include <helper_functions.h>
+#include <helper_cuda.h>
+#include "shrQATest.h"
+#endif
 
 #include <cuda_runtime.h>
+#include <unistd.h>
 
 #include "fs_debug.cu.h"
 #include "fs_initializer.cu.h"
-
-#include "matrixMul.h"
-
-
 #include "host_loop.h"
+
+#define shrLog printf
+static char *sSDKsample = "matrixMul";
+
 void init_device_app(){
 //      CUDA_SAFE_CALL(cudaSetDevice(global_devicenum));
       CUDA_SAFE_CALL(cudaDeviceSetLimit(cudaLimitMallocHeapSize,1<<25));
 }
 
 
+#include "matrixMul.h"
+
+
+
 // includes, kernels
 #include "matrixMul_kernel.cu"
 
-static char *sSDKsample = "matrixMul";
+
+#if 0
 
 ////////////////////////////////////////////////////////////////////////////////
 // These are CUDA Helper functions
@@ -201,6 +216,7 @@ static char *sSDKsample = "matrixMul";
         }
         return devID;
     }
+#endif
 // end of CUDA Helper Functions
 
 ////////////////////////////////////////////////////////////////////////////////
