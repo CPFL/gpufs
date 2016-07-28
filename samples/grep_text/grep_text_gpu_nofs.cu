@@ -399,7 +399,7 @@ int main(int argc, char** argv)
 
     gloop::Benchmark benchmark;
     benchmark.begin();
-    grep_text_nofiles<<<28, 128, 0, 0>>>(d_words, words_size / 32, d_output, d_content, d_sizes, cur_file);
+    grep_text_nofiles<<<60, 128, 0, 0>>>(d_words, words_size / 32, d_output, d_content, d_sizes, cur_file);
     cudaError_t error = cudaDeviceSynchronize();
     benchmark.end();
     benchmark.report(stderr);
