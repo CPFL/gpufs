@@ -22,6 +22,7 @@
 
 // INCLUDING CODE INLINE - change later
 #include "host_loop.h"
+#include "benchmark.h"
 
 
 
@@ -155,6 +156,8 @@ for(int i=0;i<trials+1;i++){
 	// vector, matrix, out
 
 
+    gloop::Benchmark benchmark;
+    benchmark.begin();
       img_gpu<<<nblocks,nthreads,0,gpuGlobals->streamMgr->kernelStream>>>(d_filenames[0], GREP_ROW_WIDTH, num_files-2,match_threshold,global_devicenum,
                                                                                    d_filenames[1],
                                                                                    d_filenames[2], // db0
@@ -167,6 +170,8 @@ for(int i=0;i<trials+1;i++){
 
 
     cudaError_t error = cudaDeviceSynchronize();
+    benchmark.end();
+    benchmark.report(stderr);
 	double time_after=_timestamp();
 	if(!i) time_after=0;
 	total_time+=(time_after-time_before);
